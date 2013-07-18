@@ -1,4 +1,5 @@
 opps-fileupload
+Gallery File Upload
 ===============
 
-Jquery File Upload integration for Opps
+Gallery File Upload based on Jquery File Upload integration for Opps

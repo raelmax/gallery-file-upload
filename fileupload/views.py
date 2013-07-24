@@ -1,17 +1,12 @@
 # coding: utf-8
-import random
-
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.utils import simplejson
-from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 
-from opps.images.models import Image
-from opps.articles.models import Article, ArticleImage
-from opps.sources.models import Source
-from opps.images.generate import image_url
+from acailandia.apps.fotos.models import Galeria
+from acailandia.apps.fotos.models import Fotos
 
 
 def response_mimetype(request):
@@ -22,61 +17,26 @@ def response_mimetype(request):
 
 @csrf_exempt
 @login_required(login_url='/admin/')
-def image_create(request, article_pk):
+def image_create(request, galeria_pk):
 
-    article = get_object_or_404(Article, pk=int(article_pk))
+    galeria = get_object_or_404(Galeria, pk=int(galeria_pk))
 
     if request.method == "POST":
         f = request.FILES.get('image')
 
-        title = request.POST.get('title') or article.title
-        caption = request.POST.get('caption', '')
+        nome = request.POST.get('nome') or galeria.nome
+        descricao = request.POST.get('descricao', '')
 
-        source = request.POST.get('source', None)
-        if source:
-            qs = Source.objects.filter(name=source, site=article.site)
-            if qs:
-                source = qs[0]
-            else:
-                source = Source.objects.create(
-                    name=source,
-                    slug=slugify(source),
-                    user=request.user,
-                    published=True
-                )
-
-        slug = slugify(title)
-        slug = "{0}-{1}".format(slug[:100], random.getrandbits(32))
-
-        instance = Image(
-            site=article.site,
-            user=article.user,
-            date_available=article.date_available,
-            title=title,
-            slug=slug,
+        instance = Fotos(
+            nome=nome,
             image=f,
-            published=True,
+            galeria=galeria,
         )
-        if source:
-            instance.source = source
 
         instance.save()
 
-        order = request.POST.get('order', 0)
-        ArticleImage.objects.create(
-            article=article,
-            image=instance,
-            caption=caption,
-            order=int(order)
-        )
-
         data = [{'name': f.name,
                  'url': "%s" % instance.image.url,
-                 'thumbnail_url': "%s" % image_url(
-                     instance.image.url,
-                     width=60,
-                     height=60
-                 ),
                  "delete_url": "",
                  "delete_type": "DELETE"}]
         response = JSONResponse(data, {}, response_mimetype(request))
@@ -84,7 +44,7 @@ def image_create(request, article_pk):
         return response
     else:
         return render(request, 'fileupload/image_form.html',
-                      {'article': article})
+                      {'galeria': galeria})
 
 
 class JSONResponse(HttpResponse):

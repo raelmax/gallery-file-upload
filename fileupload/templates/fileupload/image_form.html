@@ -1,5 +1,5 @@
 {% extends "admin/base_site.html" %}
-{% load i18n admin_static admin_modify suit_tags admin_urls %}
+{% load i18n admin_static admin_modify admin_urls %}
 {% load url from future %}
 {% load upload_tags %}
 
@@ -9,9 +9,10 @@
     <!-- Generic page styles -->
     <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
     <!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
 
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-    <!-- link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css" -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.fileupload-ui.css">
 
 {% endblock %}
@@ -23,8 +24,7 @@
 
         <div class="well">
            <h3>Multi image upload</h3>
-           <strong>{{article.child_class}}</strong>: {{article.title}}<br />
-           <strong>Channel</strong>: {{article.channel}}<br />
+           <strong>Galeria</strong>: {{galeria.nome}}<br />
         </div>
 
         <div class="row fileupload-buttonbar">
@@ -59,14 +59,8 @@
     </div>
 
 </div>
-{% endblock %}
-
-{% block extrajs %}
-  {{ block.super }}
-
-{% upload_js article %}
-
-
+{% upload_js galeria %}
+<script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script>
 <script src="{{ STATIC_URL }}js/tmpl.min.js"></script>
 <script src="{{ STATIC_URL }}js/load-image.min.js"></script>

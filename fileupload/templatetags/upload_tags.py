@@ -14,9 +14,8 @@ def upload_js(galeria):
         <td class="name"><span>{%=file.name%}</span></td>
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
 
-        <td class="extra"><label>Title: <input type="text" name="title" value='"""+galeria.nome+"""' required></label>
-        <label>Caption: <input type="text" name="caption"></label>
-        <label>Order: <input type="text" name="order" value="0"/></label>
+        <td class="extra">
+        <label>Nome: <input type="text" name="nome" required></label>
 
         {% if (file.error) { %}
             <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>

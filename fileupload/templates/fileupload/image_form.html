@@ -72,7 +72,7 @@
 <script src="{{ STATIC_URL }}js/jquery.fileupload-fp.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.fileupload-ui.js"></script>
 <script src="{{ STATIC_URL }}js/locale.js"></script>
-<script src="{{ STATIC_URL }}js/main.js"></script>
+<script src="{{ STATIC_URL }}js/main.js?rs123"></script>
 <script src="{{ STATIC_URL }}js/csrf.js"></script>
 
 <script>
@@ -98,16 +98,3 @@ $('#fileupload').bind('fileuploadsubmit', function (e, data) {
 {% block coltype %}{% if ordered_objects %}colMS{% else %}colM{% endif %}{% endblock %}
 
 {% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
-
-{% if not is_popup %}
-  {% block breadcrumbs %}
-    <ul class="breadcrumb">
-      <li>
-        <a href="/admin/articles/{{article.child_class|lower}}/{{article.pk}}/">Back to {{ article.child_class|lower }}</a>
-      </li>
-    </ul>
-  {% endblock %}
-{% endif %}
-
-
-
